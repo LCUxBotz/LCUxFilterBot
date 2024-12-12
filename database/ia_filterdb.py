@@ -33,7 +33,7 @@ async def save_file(media):
     caption = re.sub(r"(_|\-|\.|\+)", " ", str(media.caption)) 
     unwanted_chars = ['[', ']', '(', ')']
     for char in unwanted_chars:
-        caption = file_name.replace(char, '')
+        caption = caption.replace(char, '')
     caption = ' '.join(filter(lambda x: not x.startswith('@'), caption.split()))
     file = {
         'file_id': file_id,
