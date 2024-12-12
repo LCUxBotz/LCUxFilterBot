@@ -16,7 +16,7 @@ async def stream_start(client, message):
         return await message.reply("**Please send me supported media.**")
     if msg.media in [enums.MessageMediaType.VIDEO, enums.MessageMediaType.DOCUMENT]:
         file = getattr(msg, msg.media.value)
-        caption = file.caption
+        file_name = file.file_name
         filesize = humanize.naturalsize(file.file_size) 
         fileid = file.file_id
         user_id = message.from_user.id
