@@ -16,7 +16,7 @@ async def stream_start(client, message):
         return await message.reply("**Please send me supported media.**")
     if msg.media in [enums.MessageMediaType.VIDEO, enums.MessageMediaType.DOCUMENT]:
         file = getattr(msg, msg.media.value)
-        file_name = file.file_name
+        filename = file.file_name
         filesize = humanize.naturalsize(file.file_size) 
         fileid = file.file_id
         user_id = message.from_user.id
@@ -26,12 +26,12 @@ async def stream_start(client, message):
             chat_id=LOG_CHANNEL,
             file_id=fileid,
         )
-        caption = {quote_plus(get_name(log_msg))}
+        fileName = {quote_plus(get_name(log_msg))}
         stream = f"{URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
         download = f"{URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
  
         await log_msg.reply_text(
-            text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {filename}",
+            text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {fileName}",
             quote=True,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
