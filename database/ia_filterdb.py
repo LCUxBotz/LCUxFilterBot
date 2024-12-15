@@ -30,61 +30,61 @@ async def save_file(media):
     """Save file in database"""
 
     file_id, file_ref = unpack_new_file_id(media.file_id)
-    caption = re.sub(r"(_|\-|\.|\+)", " ", str(media.caption)) 
+    file_name = re.sub(r"(_|\-|\.|\+)", " ", str(media.file_name)) 
     unwanted_chars = ['[', ']', '(', ')']
     for char in unwanted_chars:
-        caption = caption.replace(char, '')
-    caption = ' '.join(filter(lambda x: not x.startswith('@'), caption.split()))
+        file_name = file_name.replace(char, '')
+    file_name = ' '.join(filter(lambda x: not x.startswith('@'), file_name.split()))
     file = {
         'file_id': file_id,
-        'caption': caption,
+        'file_name': file_name,
         'file_size': media.file_size,
         'caption': media.caption.html if media.caption else None
     }
-    found1 = {'caption': caption}
+    found1 = {'file_name': file_name}
     found = {'file_id': file_id}
     check1 = col.find_one(found1)
     if check1:
-        print(f"{caption} is already saved.")
+        print(f"{file_name} is already saved.")
         return False, 0
     check = col.find_one(found)
     if check:
-        print(f"{caption} is already saved.")
+        print(f"{file_name} is already saved.")
         return False, 0
     if MULTIPLE_DATABASE == True:
         check3 = sec_col.find_one(found)
         if check3:
-            print(f"{caption} is already saved.")
+            print(f"{file_name} is already saved.")
             return False, 0
         check2 = sec_col.find_one(found1)
         if check2:
-            print(f"{caption} is already saved.")
+            print(f"{file_name} is already saved.")
             return False, 0
         result = db.command('dbstats')
         data_size = result['dataSize']
         if data_size > 503316480:
             try:
                 sec_col.insert_one(file)
-                print(f"{caption} is successfully saved.")
+                print(f"{file_name} is successfully saved.")
                 return True, 1
             except DuplicateKeyError:      
-                print(f"{caption} is already saved.")
+                print(f"{file_name} is already saved.")
                 return False, 0
         else:
             try:
                 col.insert_one(file)
-                print(f"{caption} is successfully saved.")
+                print(f"{file_name} is successfully saved.")
                 return True, 1
             except DuplicateKeyError:      
-                print(f"{caption} is already saved.")
+                print(f"{file_name} is already saved.")
                 return False, 0
     else:
         try:
             col.insert_one(file)
-            print(f"{caption} is successfully saved.")
+            print(f"{file_name} is successfully saved.")
             return True, 1
         except DuplicateKeyError:      
-            print(f"{caption} is already saved.")
+            print(f"{file_name} is already saved.")
             return False, 0
 
 async def get_search_results(chat_id, query, file_type=None, max_results=10, offset=0, filter=False):
@@ -117,9 +117,9 @@ async def get_search_results(chat_id, query, file_type=None, max_results=10, off
         return []
 
     if USE_CAPTION_FILTER:
-        filter = {'$or': [{'caption': regex}, {'caption': regex}]}
+        filter = {'$or': [{'file_name': regex}, {'caption': regex}]}
     else:
-        filter = {'caption': regex}
+        filter = {'file_name': regex}
 
     if MULTIPLE_DATABASE == True:
         cursor1 = col.find(filter)
@@ -166,9 +166,9 @@ async def get_bad_files(query, file_type=None, filter=False):
         return []
 
     if USE_CAPTION_FILTER:
-        filter = {'$or': [{'caption': regex}, {'caption': regex}]}
+        filter = {'$or': [{'file_name': regex}, {'caption': regex}]}
     else:
-        filter = {'caption': regex}
+        filter = {'file_name': regex}
 
     if MULTIPLE_DATABASE == True:
         result1 = col.count_documents(filter)
