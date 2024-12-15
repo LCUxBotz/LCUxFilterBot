@@ -143,7 +143,7 @@ async def auto_approve(client, message: ChatJoinRequest):
                         download = f"{URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
  
                         await log_msg.reply_text(
-                            text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {fileName}",
+                            text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {filename}",
                             quote=True,
                             disable_web_page_preview=True,
                             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 Fᴀsᴛ Dᴏᴡɴʟᴏᴀᴅ 🚀", url=download),  # we download Link
@@ -219,7 +219,7 @@ async def auto_approve(client, message: ChatJoinRequest):
                     size = get_size(int(file.file_size))
                     if BATCH_FILE_CAPTION:
                         try:
-                            f_caption=BATCH_FILE_CAPTION.format(file_name=getattr(media, 'file_name', ''), file_size='' if size is None else size, file_caption=getattr(msg, 'caption', ''))
+                            f_caption=BATCH_FILE_CAPTION.format(caption=getattr(media, 'caption', ''), file_size='' if size is None else size, file_caption=getattr(msg, 'caption', ''))
                         except Exception as e:
                             logger.exception(e)
                             f_caption = getattr(msg, 'caption', '')
@@ -251,7 +251,7 @@ async def auto_approve(client, message: ChatJoinRequest):
                         download = f"{URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
  
                         await log_msg.reply_text(
-                            text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {caption}",
+                            text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {filename}",
                             quote=True,
                             disable_web_page_preview=True,
                             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 Fᴀsᴛ Dᴏᴡɴʟᴏᴀᴅ 🚀", url=download),  # we download Link
